@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz de sua muie</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3e5f5; /* Tons de roxo claro */
+            margin: 0;
+            padding: 20px;
+        }
+
+        .quiz-container {
+            background-color: #b39ddb; /* Roxo médio */
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #512da8; /* Roxo escuro */
+        }
+
+        #pergunta-container {
+            margin-bottom: 20px;
+        }
+
+        #pergunta-texto {
+            color: white; /* Texto das perguntas em branco */
+            font-size: 20px;
+        }
+
+        #opcoes label {
+            display: block;
+            margin: 10px 0;
+            background-color: #9575cd; /* Roxo médio */
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #opcoes label:hover {
+            background-color: #7e57c2; /* Roxo um pouco mais escuro */
+        }
+
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        button {
+            background-color: #673ab7; /* Roxo vibrante */
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #5e35b1; /* Roxo escuro vibrante */
+        }
+
+        #resultado {
+            text-align: center;
+            font-size: 18px;
+            color: #512da8; /* Roxo escuro */
+        }
+
+        #cuzuda-btn {
+            background-color: #ab47bc; /* Rosa arroxeado */
+            margin-top: 10px;
+            padding: 10px; /* Definindo o valor para padding */
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Quiz da sua muie sua dona lvl: fácil (se errar tá lascada)</h1>
+        <div id="quiz">
+            <div id="pergunta-container">
+                <p id="pergunta-texto">Pergunta aparecerá aqui</p>
+                <div id="opcoes">
+                    <!-- Opções de resposta serão carregadas aqui -->
+                </div>
+            </div>
+            <button id="proxima-btn" onclick="proximaPergunta()">Próxima</button>
+        </div>
+        <div id="resultado" style="display:none;">
+            <p>Parabéns feorenta, fez o mínimo, clica aí cuzudinha da minha vida</p>
+
+            <div style="margin-top: 20px;">
+                <a href="https://valllen2.github.io/videiobof/" target="_blank">
+                    <button id="cuzuda-btn">Clica aqui cuzuda</button>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const perguntas = [
+            { texto: "Qual a comida favorita da tua mulher?", opcoes: ['Strogonoff', 'Lasanha', 'Massa'], respostaCorreta: 'c' },
+            { texto: "3 artistas que tua mulher é doida:", opcoes: ['Billie, Adele e ngm mais chega tá ótimo', 'Billie, Finneas e Adele', 'Billie, Adele e Hayley'], respostaCorreta: 'a' },
+            { texto: "3 bandas que tua mulher é doida:", opcoes: ['Maneskin, Paramore, Sabaton', 'Paramore, Twenty One Pilots e Pink Floyd', 'Paramore, The Beatles e Pink Floyd'], respostaCorreta: 'c' },
+            { texto: "Do que sua mulher mais odeia?", opcoes: ['Pessoas', 'Cebola', 'Barata'], respostaCorreta: 'a' },
+            { texto: "Pessoa favorita de sua mulher no mundo todo:", opcoes: ['Billie', 'O amorzinho dela (Ana né)', 'A cama dela (não é pessoa mas conta)'], respostaCorreta: 'b' },
+            { texto: "se sua mulher fosse algo, oq ela seria?", opcoes: ['uma minhoca', 'um gatinho', 'uma nuvem'], respostaCorreta: 'c' },
+            { texto: "qual a ordem dos meus livros favoritos?", opcoes: ['evelyn h, a paciente silenciosa e daisy jhones', 'evelyn h, daisy jhones e paciente silenciosa', 'daisy jhones, evelyn h e a paciente silenciosa'], respostaCorreta: 'a' },
+            { texto: "qual meu escritor ou escritora fav??", opcoes: ['Taylor Jankins', 'Raphael Montes', 'Alex Michaelides'], respostaCorreta: 'c' },
+            { texto: "Qual o passa tempo fav da sua muie?", opcoes: ['dormir', 'the office', 'jogar'], respostaCorreta: 'a' },
+            { texto: "oq sua mulher odeia pt2:", opcoes: ['socializar', 'q falem cmg enqt to de fone', 'pimentao'], respostaCorreta: 'a' },
+            { texto: "qual pais sua mulher quer viajar primeiro?", opcoes: ['Portugal', 'Italia', 'islandia'], respostaCorreta: 'a' },
+            { texto: "qual lingua sua futura esposa sabe flr?", opcoes: ['Português', 'Espanhol', 'Inglês', 'nenhuma ela é burra'], respostaCorreta: 'd' },
+            { texto: "qual lingua sua muher adoraria falar fluentemente", opcoes: ['ingles', 'espanhol', 'italiano'], respostaCorreta: 'c' },
+            { texto: "pq as girafas nao podem dormir deitadas?", opcoes: ['pq elas podem quebrar o pescoço', 'pq elas se afogam com o liquido do nariz', 'pq elas se afogam com o liquido do estomago'], respostaCorreta: 'c' },
+            { texto: "qual meu filme de conforto?", opcoes: ['A dama e o vagabundo', 'gumball', 'a noiva cadaver'], respostaCorreta: 'c' },
+            { texto: "qual a materia favorita dela?", opcoes: ['ingles', 'biologia', 'geografia'], respostaCorreta: 'c' },
+            { texto: "Maiores medos dela", opcoes: ['pscina funda', 'escuro', 'ficar sem ana'], respostaCorreta: 'c' },
+            { texto: "estilo de muisica q ela mais odeia:", opcoes: ['Reggae', 'sertanejo', 'bandinha'], respostaCorreta: 'b' },
+            { texto: "Qual o maior medo dela futuramente?", opcoes: ['ser mto pobretona', 'ficar sem ana', 'cursar algo q eu nao quero'], respostaCorreta: 'b' },
+            { texto: "Show q eu mais quero ir na vida:", opcoes: ['rammstein', 'Adele', 'Billie'], respostaCorreta: 'b' }
+        ];
+
+        let indiceAtual = 0;
+        let pontuacao = 0;
+
+        function carregarPergunta() {
+            const perguntaAtual = perguntas[indiceAtual];
+            document.getElementById('pergunta-texto').innerText = perguntaAtual.texto;
+
+            const opcoesContainer = document.getElementById('opcoes');
+            opcoesContainer.innerHTML = '';
+
+            perguntaAtual.opcoes.forEach((opcao, index) => {
+                const opcaoLabel = document.createElement('label');
+                const opcaoInput = document.createElement('input');
+                opcaoInput.type = 'radio';
+                opcaoInput.name = 'q';
+                opcaoInput.value = String.fromCharCode(97 + index); // 'a', 'b', 'c', etc.
+
+                opcaoLabel.appendChild(opcaoInput);
+                opcaoLabel.appendChild(document.createTextNode(opcao));
+                opcoesContainer.appendChild(opcaoLabel);
+            });
+        }
+
+        function proximaPergunta() {
+            const respostas = document.getElementsByName('q');
+            let respostaSelecionada = null;
+
+            for (const resposta of respostas) {
+                if (resposta.checked) {
+                    respostaSelecionada = resposta.value;
+                    break;
+                }
+            }
+
+            if (respostaSelecionada === null) {
+                alert("Por favor, selecione uma resposta.");
+                return;
+            }
+
+            if (respostaSelecionada === perguntas[indiceAtual].respostaCorreta) {
+                pontuacao++;
+                indiceAtual++;
+            } else {
+                alert("Resposta errada! Você vai voltar para o início.");
+                indiceAtual = 0;
+                pontuacao = 0;
+            }
+
+            if (indiceAtual < perguntas.length) {
+                carregarPergunta();
+            } else {
+                mostrarResultado();
+            }
+        }
+
+        function mostrarResultado() {
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('resultado').style.display = 'block';
+        }
+
+        // Carrega a primeira pergunta quando a página é aberta
+        window.onload = carregarPergunta;
+    </script>
+</body>
+</html>
